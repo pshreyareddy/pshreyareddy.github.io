@@ -1,0 +1,329 @@
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- Load color scale -->
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<div class="container">
+    <div class="topnav">
+        <a href="index.html">COVID-19 HOTSPOTS</a>
+        <a href="Slide2.html">DEATHS VS POSITIVE CASES BY COUNTRY REGION </a>
+        <a href="Slide2.1.html">TOP 10 AFFECTED COUNTRIES BY CASES/DEATHS</a>
+        <a href="Slide3.html">EXPLORE THE TREND </a>
+    </div>
+  </div>
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+<footer>
+  <span>Data as of 21st July 2020</span>
+</footer>
+<!-- A bit of CSS: change stroke color of circle on hover (white -> black) -->
+<style>
+        .bubbles {
+          stroke-width: 1px;
+          stroke: black;
+          opacity: .8
+        }
+        .bubbles:hover {
+          stroke: black;
+        }
+        .my_text_header
+            {
+                font-family:   sans-serif;
+                font-size:      40px;
+                font-weight:    bold;
+                text-align: center;
+                vertical-align: middle;
+            }
+            .my_text_content
+            {
+                font-family:   sans-serif;
+                font-size:      10px;
+            }
+            .container{
+            position: center;
+            margin: 1px;
+            width: 100%;
+        }
+        /* Style the top navigation bar */
+        .topnav {
+            overflow: hidden;
+            background-color: #8a6161;
+        }
+
+        /* Style the topnav links */
+        .topnav a {
+            float: left;
+            display: block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        /* Change color on hover */
+        .topnav a:hover {
+            background-color: #ddd;
+            color: black;
+        } 
+        </style>
+
+<script>
+
+
+
+var header = d3.select("#my_dataviz")
+               .append("div")
+               .attr("id","header")
+               .attr("width",width2)
+               .attr("class", "my_text_header");
+              //  .attr("style","text-align: center;vertical-align: middle;");
+               d3.select("#header").html("<span>DEATHS VS POSITIVE CASES BY COUNTRY REGION </span>" + "<br/>");
+  var content = d3.select("#my_dataviz")
+            .append("div")
+            .attr("id","content")
+            .attr("width", width2)
+            .attr("style","text-align: justify;vertical-align: middle;");
+            d3.select("#content").html("<p><b>The Scatter plot</b> below shows the relationship between total deaths and total positive cases in all the countries of the world by their country regions. Each country bubble is color coded based on the region it belongs to.From the plot we can see that,</p>"
++ "<ul>"
++"<li> The two Green bubbles(<b>United States</b> and <b>Brazil</b>) are the two main outliers in terms of cases/deaths. </li>"
++"<li> The Blue bubbles(European countries eg. <b>United Kingdom</b>) have a high death count compared to the the positive cases. </li>"
++"<li>In Asia region, <b>India </b>(Red bubble) has a very high positive cases count but, a low death count.</li>"
++"<li> Hover over the bubbles to see the country name and details on Positive cases, Deaths, Positive cases per million and Deaths per million population.</li>"
++"</ul>"
++"<p>Next, to see identify the 10 most affected countries by deaths/cases select the <b>TOP 10 AFFECTED COUNTRIES BY CASES/DEATHS</b> tab above"
+);   
+// set the dimensions and margins of the graph
+var margin2 = {top: 40, right: 50, bottom: 20, left: 100},
+    width2 = 1300 - margin2.left - margin2.right,
+    height2 = 600 - margin2.top - margin2.bottom;
+
+// append the svg object to the body of the page
+var svg2 = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", width2 + margin2.left + margin2.right)
+    .attr("height", height2 + margin2.top + margin2.bottom)
+    .attr("id","example2")
+  .append("g")
+    .attr("transform",
+          "translate(" + margin2.left + "," + margin2.top + ")");
+
+
+
+// adding annotations 
+
+d3.select("#example2").append("g").html('<g transform="translate(1170, 45)"><g><path d="M0,0L-60,150" stroke="orange" fill="none"></path><path d="M0,0L-6.129264914211552,7.9013993451423055L-1.0108077139449487,9.948782225248946L0,0" fill="orange" stroke="orange"></path></g><g transform="translate(-60, 150)"><g transform="translate(1, 10)"><rect width="172.53125" height="54.9203125" x="-1" y="0" fill="white" fill-opacity="0"></rect><text dx="0" y="18.7171875" fill="orange"><tspan x="0" dy="0.8em">Has the highest number of</tspan><tspan x="0" dy="1.2em">positive cases and deaths</tspan></text><text fill="orange" font-weight="bold"><tspan x="0" dy="0.8em">United States</tspan></text></g><path class="note-line" d="M0,0L172.53125,0" stroke="orange"></path></g></g>');
+
+d3.select("#example2").append("g").html('<g transform="translate(450, 520)"><g><path d="M0,0L-45,-140" stroke="orange" fill="none"></path><path d="M0,0L-0.31740268441679126,-9.994961507475905L-5.565695390315442,-8.308010280579909L0,0" fill="orange" stroke="orange"></path></g><g transform="translate(-45, -140)"><g transform="translate(1, -84.1234375)"><rect width="181.9375" height="74.1234375" x="-1" y="0" fill="white" fill-opacity="0"></rect><text dx="0" y="18.7171875" fill="orange"><tspan x="0" dy="0.8em">Has very high number of</tspan><tspan x="0" dy="1.2em">deaths compared to the total</tspan><tspan x="0" dy="1.2em">positive cases</tspan></text><text fill="orange" font-weight="bold"><tspan x="0" dy="0.8em">United Kingdom</tspan></text></g><path d="M0,0L181.9375,0" stroke="orange"></path></g></g>');
+
+d3.select("#example2").append("g").html('<g transform="translate(300, 400)"><g><path d="M0,0L-45,-140" stroke="orange" fill="none"></path><path d="M0,0L-0.31740268441679126,-9.994961507475905L-5.565695390315442,-8.308010280579909L0,0" fill="orange" stroke="orange"></path></g><g transform="translate(-45, -140)"><g transform="translate(1, -84.1234375)"><rect width="200.0625" height="74.1234375" x="-1" y="0" fill="white" fill-opacity="0"></rect><text dx="0" y="18.7171875" fill="orange"><tspan x="0" dy="0.8em">Has lower death count</tspan><tspan x="0" dy="1.2em">compared to very high positive</tspan><tspan x="0" dy="1.2em">cases count</tspan></text><text fill="orange" font-weight="bold"><tspan x="0" dy="0.8em">India</tspan></text></g><path class="note-line" d="M0,0L200.0625,0" stroke="orange"></path>'
++ '</g></g>');
+
+//Read the data
+    d3.csv("data/Slide1New.csv", function(data) {
+  // ---------------------------//
+  //       AXIS  AND SCALE      //
+  // ---------------------------//
+
+  // Add X axis
+  var x2 = d3.scaleLinear()
+ 
+    .domain([0, 150000])
+    .range([ 0, width2 ]);
+  svg2.append("g")
+    .attr("transform", "translate(0," + height2 + ")")
+   
+    .call(d3.axisBottom(x2));
+
+  // Add X axis label:
+  svg2.append("text")
+      .attr("text-anchor", "end")
+      .attr("x", width2)
+      .attr("y", height2-20 )
+      .text("Total Deaths");
+
+  // Add Y axis
+  var y2 = d3.scaleLinear()
+  
+    .domain([0, 3844886])
+    .range([ height2, 0]);
+  svg2.append("g")
+    .call(d3.axisLeft(y2));
+
+  // Add Y axis label:
+  svg2.append("text")
+      .attr("text-anchor", "end")
+      .attr("x", 0)
+      .attr("y", -20 )
+      .text("Total Positive Cases")
+      .attr("text-anchor", "start")
+
+  // Add a scale for bubble size
+  var z = d3.scaleSqrt()
+    .domain([801, 1390000000])
+    .range([ 2, 30]);
+
+  // Add a scale for bubble color
+  var myColor = d3.scaleOrdinal()
+    .domain(["Asia", "Europe", "America", "Africa", "Oceania"])
+    .range(d3.schemeSet1);
+
+
+  // ---------------------------//
+  //      TOOLTIP               //
+  // ---------------------------//
+
+  var tooltip = d3.select("#my_dataviz")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0)
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+        .style("position","absolute")
+  // tooltip mouseover event handler
+  var tipMouseover = function(d) {
+              
+          var html ="<b>" + d.Country + "</b> <br>" + " <b> Total Positive Cases: </b>" + d.TotalPositiveCases + "<br>" + "<b> Total Deaths: </b>" + 
+          d.TotalDeaths+ "<br>" + "<b> Total Positive Cases Per Million: </b>" + d.PositiveCasesPerMillion+ "<br>" + "<b> Deaths Per Million: </b>" + d.DeathsPerMillion;                    
+
+                  tooltip.html(html)
+                      .style("left",  (d3.event.pageX + 15) + "px")
+                      .style("top", (d3.event.pageY - 28) + "px")
+                    .transition()
+                      .duration(200) // ms
+                      .style("opacity", 1) // started as 0!
+
+              };
+              // tooltip mouseout event handler
+              var tipMouseout = function(d) {
+                  tooltip.transition()
+                      .duration(300) // ms
+                      .style("opacity", 0); // don't care about position!
+              };
+
+
+
+
+  // -2- Create 3 functions to show / update (when mouse move but stay on same circle) / hide the tooltip
+  var showTooltip = function(d) {
+    tooltip
+      .transition()
+     .duration(200)
+    tooltip
+      .style("opacity", 1)
+      .html("Country: " + d.Country)
+      .style("left", (d3.mouse(this)[0]+30) + "px")
+      .style("top", (d3.mouse(this)[1]+30) + "px")
+  }
+  var moveTooltip = function(d) {
+    tooltip
+      .style("left", (d3.mouse(this)[0]+30) + "px")
+      .style("top", (d3.mouse(this)[1]+30) + "px")
+  }
+  var hideTooltip = function(d) {
+    tooltip
+      .transition()
+    .duration(200)
+      .style("opacity", 0)
+  }
+
+
+  // ---------------------------//
+  //       HIGHLIGHT GROUP      //
+  // ---------------------------//
+
+  // What to do when one group is hovered
+  var highlight = function(d){
+    // reduce opacity of all groups
+    d3.selectAll(".bubbles").style("opacity", .05)
+    // expect the one that is hovered
+    d3.selectAll("."+d).style("opacity", 1)
+  }
+
+  // And when it is not hovered anymore
+  var noHighlight = function(d){
+    d3.selectAll(".bubbles").style("opacity", 1)
+  }
+
+
+  // ---------------------------//
+  //       CIRCLES              //
+  // ---------------------------//
+
+  // Add dots
+  svg2.append('g')
+    .selectAll("dot")
+    .data(data)
+    .enter()
+    .append("circle")
+      .attr("class", function(d) { return "bubbles " + d.Continent })
+  
+      .attr("cx", function (d) { return x2(d.TotalDeaths); } )
+      .attr("cy", function (d) { return y2(d.TotalPositiveCases); } )
+      .attr("r", "8px" )
+      
+      .style("fill", function (d) { return myColor(d.Continent); } )
+    // -3- Trigger the functions for hover
+    
+    .on("mouseover", tipMouseover)
+      .on("mouseout", tipMouseout);
+
+
+    // ---------------------------//
+    //       LEGEND              //
+    // ---------------------------//
+
+    // Add legend: circles
+    var valuesToShow = [10000000, 100000000, 1000000000]
+    var xCircle = 390
+    var xLabel = 440
+    
+    // Add one dot in the legend for each name.
+    var size = 20
+    var allgroups = ["Asia", "Europe", "America", "Africa", "Oceania"]
+    svg2.selectAll("myrect")
+      .data(allgroups)
+      .enter()
+      .append("circle")
+        .attr("cx", 1100)
+        .attr("cy", function(d,i){ return 10 + i*(size+5)}) // 100 is where the first dot appears. 25 is the distance between dots
+        .attr("r", 7)
+        .style("fill", function(d){ return myColor(d)})
+        .on("mouseover", highlight)
+        .on("mouseleave", noHighlight)
+
+    // Add labels beside legend dots
+    svg2.selectAll("mylabels")
+      .data(allgroups)
+      .enter()
+      .append("text")
+        .attr("x", 1100 + size*.8)
+        .attr("y", function(d,i){ return i * (size + 5) + (size/2)}) // 100 is where the first dot appears. 25 is the distance between dots
+        .style("fill", function(d){ return myColor(d)})
+        .text(function(d){ return d})
+        .attr("text-anchor", "left")
+        .style("alignment-baseline", "middle")
+        .on("mouseover", highlight)
+        .on("mouseleave", noHighlight)
+
+        d3.select("#scattertext").remove();
+                svg2.append("text")
+                    .attr("id", "scattertext")
+                    .attr("x", (width2 / 2))
+                    .attr("y", 0 - (margin2.top / 2))
+                    .attr("text-anchor", "middle")
+                    .attr("text-anchor", "middle")
+                    .style("font-size", "16px")
+                    .style("text-decoration", "underline")
+                    .text(("Total Deaths VS Total Positive Cases"));
+  });
+
+
+
+</script>

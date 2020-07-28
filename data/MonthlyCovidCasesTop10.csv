@@ -1,0 +1,113 @@
+REPORT_DATE,TotalPositiveCases,TotalDeaths,Country
+31-Dec,0,0,Brazil
+31-Jan,0,0,Brazil
+29-Feb,1,0,Brazil
+31-Mar,4578,159,Brazil
+30-Apr,73583,5307,Brazil
+31-May,420278,23368,Brazil
+30-Jun,869755,29480,Brazil
+21-Jul,750451,21806,Brazil
+31-Dec,0,0,Chile
+31-Jan,0,0,Chile
+29-Feb,0,0,Chile
+31-Mar,2449,8,Chile
+30-Apr,12436,208,Chile
+31-May,79973,781,Chile
+30-Jun,181141,4578,Chile
+21-Jul,57030,3058,Chile
+31-Dec,0,0,India
+31-Jan,1,0,India
+29-Feb,2,0,India
+31-Mar,1248,32,India
+30-Apr,31799,1042,India
+31-May,149093,4090,India
+30-Jun,384697,11729,India
+21-Jul,588351,11191,India
+31-Dec,0,0,Iran
+31-Jan,0,0,Iran
+29-Feb,388,34,Iran
+31-Mar,41107,2723,Iran
+30-Apr,52162,3200,Iran
+31-May,55293,1777,Iran
+30-Jun,76255,2936,Iran
+21-Jul,50997,3735,Iran
+31-Dec,0,0,Mexico
+31-Jan,0,0,Mexico
+29-Feb,2,0,Mexico
+31-Mar,1092,28,Mexico
+30-Apr,16705,1704,Mexico
+31-May,69713,8047,Mexico
+30-Jun,133145,17342,Mexico
+21-Jul,128739,12364,Mexico
+31-Dec,0,0,Peru
+31-Jan,0,0,Peru
+29-Feb,0,0,Peru
+31-Mar,950,24,Peru
+30-Apr,32981,919,Peru
+31-May,121740,3428,Peru
+30-Jun,126694,5133,Peru
+21-Jul,75316,3880,Peru
+31-Dec,0,0,Russia
+31-Jan,0,0,Russia
+29-Feb,2,0,Russia
+31-Mar,1834,10,Russia
+30-Apr,97563,962,Russia
+31-May,297176,3583,Russia
+30-Jun,244581,4611,Russia
+21-Jul,136330,3261,Russia
+31-Dec,0,0,South Africa
+31-Jan,0,0,South Africa
+29-Feb,0,0,South Africa
+31-Mar,1326,3,South Africa
+30-Apr,4024,100,South Africa
+31-May,25617,540,South Africa
+30-Jun,113297,1886,South Africa
+21-Jul,229364,2644,South Africa
+31-Dec,0,0,United Kingdom
+31-Jan,2,0,United Kingdom
+29-Feb,16,0,United Kingdom
+31-Mar,22123,2043,United Kingdom
+30-Apr,143080,24054,United Kingdom
+31-May,107605,12279,United Kingdom
+30-Jun,39139,5199,United Kingdom
+21-Jul,16593,1737,United Kingdom
+31-Dec,0,0,United States
+31-Jan,7,0,United States
+29-Feb,63,1,United States
+31-Mar,188411,4288,United States
+30-Apr,887156,58851,United States
+31-May,723398,41103,United States
+30-Jun,854245,23065,United States
+21-Jul,1191606,13416,United States
+31-Dec,0,0,France
+31-Jan,6,0,France
+29-Feb,51,2,France
+31-Mar,44493,3022,France
+30-Apr,83892,21063,France
+31-May,23054,4684,France
+30-Jun,12764,1042,France
+21-Jul,12494,364,France
+31-Dec,0,0,Italy
+31-Jan,3,0,Italy
+29-Feb,885,21,Italy
+31-Mar,100851,11570,Italy
+30-Apr,101852,16091,Italy
+31-May,29073,5658,Italy
+30-Jun,7772,1404,Italy
+21-Jul,4188,314,Italy
+31-Dec,0,0,Spain
+31-Jan,0,0,Spain
+29-Feb,54,0,Spain
+31-Mar,104213,7340,Spain
+30-Apr,110916,17203,Spain
+31-May,24246,2584,Spain
+30-Jun,9842,1228,Spain
+21-Jul,15565,67,Spain
+31-Dec,27,0,World
+31-Jan,9801,213,World
+29-Feb,739296,36902,World
+31-Mar,74736,2703,World
+30-Apr,2346453,190264,World
+31-May,2883329,139442,World
+30-Jun,4390946,103391,World
+21-Jul,4274654,136806,World
