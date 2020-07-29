@@ -114,14 +114,14 @@ var svg2 = d3.select("#my_dataviz")
 
 
 // adding annotations 
-
+function updateAnnotation(){
 d3.select("#example2").append("g").html('<g transform="translate(1170, 45)"><g><path d="M0,0L-60,150" stroke="orange" fill="none"></path><path d="M0,0L-6.129264914211552,7.9013993451423055L-1.0108077139449487,9.948782225248946L0,0" fill="orange" stroke="orange"></path></g><g transform="translate(-60, 150)"><g transform="translate(1, 10)"><rect width="172.53125" height="54.9203125" x="-1" y="0" fill="white" fill-opacity="0"></rect><text dx="0" y="18.7171875" fill="orange"><tspan x="0" dy="0.8em">Has the highest number of</tspan><tspan x="0" dy="1.2em">positive cases and deaths</tspan></text><text fill="orange" font-weight="bold"><tspan x="0" dy="0.8em">United States</tspan></text></g><path class="note-line" d="M0,0L172.53125,0" stroke="orange"></path></g></g>');
 
 d3.select("#example2").append("g").html('<g transform="translate(450, 520)"><g><path d="M0,0L-45,-140" stroke="orange" fill="none"></path><path d="M0,0L-0.31740268441679126,-9.994961507475905L-5.565695390315442,-8.308010280579909L0,0" fill="orange" stroke="orange"></path></g><g transform="translate(-45, -140)"><g transform="translate(1, -84.1234375)"><rect width="181.9375" height="74.1234375" x="-1" y="0" fill="white" fill-opacity="0"></rect><text dx="0" y="18.7171875" fill="orange"><tspan x="0" dy="0.8em">Has very high number of</tspan><tspan x="0" dy="1.2em">deaths compared to the total</tspan><tspan x="0" dy="1.2em">positive cases</tspan></text><text fill="orange" font-weight="bold"><tspan x="0" dy="0.8em">United Kingdom</tspan></text></g><path d="M0,0L181.9375,0" stroke="orange"></path></g></g>');
 
 d3.select("#example2").append("g").html('<g transform="translate(300, 400)"><g><path d="M0,0L-45,-140" stroke="orange" fill="none"></path><path d="M0,0L-0.31740268441679126,-9.994961507475905L-5.565695390315442,-8.308010280579909L0,0" fill="orange" stroke="orange"></path></g><g transform="translate(-45, -140)"><g transform="translate(1, -84.1234375)"><rect width="200.0625" height="74.1234375" x="-1" y="0" fill="white" fill-opacity="0"></rect><text dx="0" y="18.7171875" fill="orange"><tspan x="0" dy="0.8em">Has lower death count</tspan><tspan x="0" dy="1.2em">compared to very high positive</tspan><tspan x="0" dy="1.2em">cases count</tspan></text><text fill="orange" font-weight="bold"><tspan x="0" dy="0.8em">India</tspan></text></g><path class="note-line" d="M0,0L200.0625,0" stroke="orange"></path>'
 + '</g></g>');
-
+}
 //Read the data
     d3.csv("data/Slide1New.csv", function(data) {
   // ---------------------------//
@@ -324,6 +324,6 @@ d3.select("#example2").append("g").html('<g transform="translate(300, 400)"><g><
                     .text(("Total Deaths VS Total Positive Cases"));
   });
 
-
+setTimeout(updateAnnotation,1500);
 
 </script>

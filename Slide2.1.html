@@ -96,6 +96,7 @@
     // append the svg object to the body of the page
     var svg = d3.select("#my_dataviz")
         .append("svg")
+        .attr("id", "s")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
@@ -110,12 +111,56 @@
     // append the svg object to the body of the page
     var svg1 = d3.select("#my_dataviz")
         .append("svg")
+        .attr("id", "s1")
         .attr("width", width1 + margin1.left + margin1.right)
         .attr("height", height1 + margin1.top + margin1.bottom)
         .append("g")
         .attr("transform",
             "translate(" + margin1.left + "," + margin1.top + ")");
 
+
+    function updateAnnotation() {
+
+        d3.select("#s1")
+            .append("line")
+            .attr("x1", 250)
+            .attr("y1", 285)
+            .attr("x2", 250)
+            .attr("y2", 180)
+            .attr("stroke-width", 2)
+            .attr("stroke", "orange");
+        d3.select("#s1")
+            .append("line")
+            .attr("x1", 250)
+            .attr("y1", 180)
+            .attr("x2", 220)
+            .attr("y2", 180)
+            .attr("stroke-width", 2)
+            .attr("stroke", "orange");
+        d3.select("#s1")
+            .append("line")
+            .attr("x1", 250)
+            .attr("y1", 285)
+            .attr("x2", 220)
+            .attr("y2", 285)
+            .attr("stroke-width", 2)
+            .attr("stroke", "orange");
+        d3.select("#s1")
+            .append("line")
+            .attr("x1", 250)
+            .attr("y1", 225)
+            .attr("x2", 300)
+            .attr("y2", 225)
+            .attr("stroke-width", 2)
+            .attr("stroke", "orange");
+        d3.select("#s1")
+            .append("text")
+            .attr("transform",
+                "translate(" + 370 + "," + 220 + ")")
+            .style("text-anchor", "middle")
+            .style("fill", "orange")
+            .text(("Make the top 10 only in total deaths"));
+    }
 
 
 
@@ -280,4 +325,5 @@
             .text(("Top 10 Countries with Most Positive Cases"));
 
     })
+    setTimeout(updateAnnotation, 1000);
 </script>
