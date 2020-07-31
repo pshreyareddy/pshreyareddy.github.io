@@ -264,15 +264,24 @@ d3.select("#example2").append("g").html('<g transform="translate(300, 400)"><g><
     .append("circle")
       .attr("class", function(d) { return "bubbles " + d.Continent })
   
-      .attr("cx", function (d) { return x2(d.TotalDeaths); } )
-      .attr("cy", function (d) { return y2(d.TotalPositiveCases); } )
-      .attr("r", "8px" )
+      .attr("cx", "0" )
+      .attr("cy", "0" )
+      .attr("r", "0" )
       
       .style("fill", function (d) { return myColor(d.Continent); } )
     // -3- Trigger the functions for hover
     
     .on("mouseover", tipMouseover)
       .on("mouseout", tipMouseout);
+
+
+      svg2.selectAll("circle")
+          .transition()
+          .duration(2000)
+          .attr("cx", function (d) { return x2(d.TotalDeaths); } )
+      .attr("cy", function (d) { return y2(d.TotalPositiveCases); } )
+      .attr("r", "8px" )
+
 
 
     // ---------------------------//
@@ -324,6 +333,6 @@ d3.select("#example2").append("g").html('<g transform="translate(300, 400)"><g><
                     .text(("Total Deaths VS Total Positive Cases"));
   });
 
-setTimeout(updateAnnotation,1500);
+setTimeout(updateAnnotation,3000);
 
 </script>

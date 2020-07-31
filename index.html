@@ -219,10 +219,9 @@
       .data(data.sort(function (a, b) { return +b.TotalPositiveCases - +a.TotalPositiveCases }).filter(function (d, i) { return i < 100000 }))
       .enter()
       .append("circle")
-      .attr("cx", function (d) { return projection([+d.Longitude, +d.Latitude])[0] })
-      .attr("cy", function (d) { return projection([+d.Longitude, +d.Latitude])[1] })
-      .attr("r", function (d) { return size(+d.TotalPositiveCases / 20) })
-
+      .attr("cx", "0")
+      .attr("cy", "0")
+      .attr("r", "0")
       .attr("class", "circle")
       .style("fill", "69b3a2")
       .attr("stroke", "#69b3a2")
@@ -230,11 +229,19 @@
       .attr("fill-opacity", .4)
       .on("mouseover", mouseover)
       .on("mousemove", mousemove)
-      .on("mouseleave", mouseleave)
+      .on("mouseleave", mouseleave);
+
+    svg.selectAll("circle")
+      .transition()
+      .duration(2000)
+      .attr("cx", function (d) { return projection([+d.Longitude, +d.Latitude])[0] })
+      .attr("cy", function (d) { return projection([+d.Longitude, +d.Latitude])[1] })
+      .attr("r", function (d) { return size(+d.TotalPositiveCases / 20) })
+
 
 
 
 
   }
-  setTimeout(updateAnnotation, 2000);
+  setTimeout(updateAnnotation, 2500);
 </script>

@@ -226,13 +226,17 @@
             .append("rect")
             .attr("x", x1(0))
             .attr("y", function (d) { return y1(d.Country); })
-            .attr("width", function (d) { return x1(d.TotalDeaths); })
+            .attr("width", "0")
             .attr("height", y1.bandwidth())
             .attr("fill", "#FF0000")
 
             .on("mouseover", tipMouseover)
             .on("mouseout", tipMouseout);
 
+        svg1.selectAll("rect")
+            .transition()
+            .duration(2000)
+            .attr("width", function (d) { return x1(d.TotalDeaths); })
 
         d3.select("#deathtext").remove();
         svg1.append("text")
@@ -305,14 +309,17 @@
             .append("rect")
             .attr("x", x(0))
             .attr("y", function (d) { return y(d.Country); })
-            .attr("width", function (d) { return x(d.TotalPositiveCases); })
+            .attr("width", "0")
             .attr("height", y.bandwidth())
             .attr("fill", "#69b3a2")
 
             .on("mouseover", tipMouseover)
             .on("mouseout", tipMouseout);
 
-
+        svg.selectAll("rect")
+            .transition()
+            .duration(2000)
+            .attr("width", function (d) { return x(d.TotalPositiveCases); })
 
         d3.select("#postext").remove();
         svg.append("text")
@@ -325,5 +332,5 @@
             .text(("Top 10 Countries with Most Positive Cases"));
 
     })
-    setTimeout(updateAnnotation, 2000);
+    setTimeout(updateAnnotation, 2500);
 </script>
