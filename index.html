@@ -97,6 +97,7 @@
   // The svg
   var svg = d3.select("#my_dataviz")
     .append("svg")
+    .attr("id", "s1")
     .attr("width", width)
     .attr("height", height)
 
@@ -110,6 +111,58 @@
     .defer(d3.json, "data/world.geojson")  // World shape
     .defer(d3.csv, "data/Slide1New.csv") // Position of circles
     .await(ready);
+  function updateAnnotation() {
+
+    d3.select("#s1")
+      .append("line")
+      .attr("x1", 450)
+      .attr("y1", 400)
+      .attr("x2", 400)
+      .attr("y2", 200)
+      .attr("stroke-width", 2)
+      .attr("stroke", "orange");
+    d3.select("#s1")
+      .append("line")
+      .attr("x1", 350)
+      .attr("y1", 300)
+      .attr("x2", 425)
+      .attr("y2", 300)
+      .attr("stroke-width", 2)
+      .attr("stroke", "orange");
+
+    d3.select("#s1")
+      .append("text")
+      .attr("transform",
+        "translate(" + 290 + "," + 290 + ")")
+      .style("text-anchor", "middle")
+      .style("fill", "orange")
+      .text(("American region is most affected"));
+
+    d3.select("#s1")
+      .append("line")
+      .attr("x1", 900)
+      .attr("y1", 440)
+      .attr("x2", 800)
+      .attr("y2", 350)
+      .attr("stroke-width", 2)
+      .attr("stroke", "orange");
+    d3.select("#s1")
+      .append("line")
+      .attr("x1", 869)
+      .attr("y1", 410)
+      .attr("x2", 800)
+      .attr("y2", 410)
+      .attr("stroke-width", 2)
+      .attr("stroke", "orange");
+    d3.select("#s1")
+      .append("text")
+      .attr("transform",
+        "translate(" + 740 + "," + 400 + ")")
+      .style("text-anchor", "middle")
+      .style("fill", "orange")
+      .text(("Oceania region is least affected"));
+
+  }
 
   function ready(error, dataGeo, data) {
 
@@ -183,5 +236,5 @@
 
 
   }
-
+  setTimeout(updateAnnotation, 2000);
 </script>
