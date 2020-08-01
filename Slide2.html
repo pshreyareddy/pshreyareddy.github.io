@@ -5,8 +5,6 @@
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
 
-<!-- Load color scale -->
-<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 <div class="container">
     <div class="topnav">
         <a href="index.html">COVID-19 HOTSPOTS</a>
@@ -169,7 +167,7 @@ d3.select("#example2").append("g").html('<g transform="translate(300, 400)"><g><
   // Add a scale for bubble color
   var myColor = d3.scaleOrdinal()
     .domain(["Asia", "Europe", "America", "Africa", "Oceania"])
-    .range(d3.schemeSet1);
+    .range(["#e41a1c", "#377eb8", "#4daf4a", "#984ea3", "#ff7f00", "#ffff33", "#a65628", "#f781bf", "#999999"]);
 
 
   // ---------------------------//
