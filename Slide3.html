@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
+
+
 <div class="container">
     <div class="topnav">
         <a href="index.html">COVID-19 HOTSPOTS</a>
         <a href="Slide2.html">DEATHS VS POSITIVE CASES BY COUNTRY REGION </a>
-        <a href="Slide2.1.html">TOP 10 AFFECTED COUNTRIES BY CASES/DEATHS</a>
-        <a href="Slide3.html">EXPLORE THE TREND </a>
+        <a href="Slide3.html">TOP 10 AFFECTED COUNTRIES BY CASES/DEATHS</a>
+        <a href="Slide4.html">EXPLORE THE TREND </a>
     </div>
 </div>
-<div id="my_dataviz">
-    <div>
-        <select id="selectButton"></select>
-        <button id="button1" onclick="selectPositiveCases()">Total Positive Cases </button>
-        <button id="button2" onclick="selectDeaths()">Total Deaths</button>
-    </div>
-</div>
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
 <footer>
     <span>Data as of 21st July 2020</span>
 </footer>
@@ -66,331 +64,273 @@
     }
 </style>
 
-<script type="text/javascript">
+<script>
+
+
+
 
     var header = d3.select("#my_dataviz")
         .append("div")
         .attr("id", "header")
-        .attr("width", 1200)
+        .attr("width", 1400)
         .attr("class", "my_text_header");
-    d3.select("#header").html("<span>EXPLORE THE TREND</span>" + "<br/>");
-    var content = d3.select("#my_dataviz")
+    d3.select("#header").html("<span>TOP 10 AFFECTED COUNTRIES BY CASES/DEATHS</span>" + "<br/>");
+    var content1 = d3.select("#my_dataviz")
         .append("div")
-        .attr("id", "content")
-        .attr("width", 1200)
+        .attr("id", "content1")
+        .attr("width", 1400)
         .attr("style", "text-align: justify;vertical-align: middle;");
-    d3.select("#content").html("<p>Explore the weekly and monthly trend of Covid-19 positive cases and deaths for each of the top 10 affected countries either by positive cases/deaths(<b>Select any one from dropdown</b>).Toggle between Total Positive Cases and Total Deaths using the buttons at the top.</p>"
-        + "<p>The dropdown is by default assigned to the entire world displaying the weekly/monthly trend of total positive cases. Select the button Total Deaths to get the trend for total deaths. </p>"
-        + "<p>To Start over,select the <b>COVID-19 HOTSPOTS </b> tab on the top. </p>");
-    var deathsflag = false;
-
-    DisableButtons();
+    d3.select("#content1").html("<p><b>The horizontal bar charts </b> shows the top 10 countries in the world by total positive cases(Green bars) and total deaths(Red bars).Further corroborating  our observations in previous scene, we can see that </p>"
+        + "<ul>"
+        + "<li><b> United States </b> (1st) and<b>  Brazil </b>  (2nd)  are leading in both positive cases and deaths. </li>"
+        + "<li><b> United Kingdom</b>  ranks higher (3rd) in terms of death count and lower (9th) in terms of positive cases. </li>"
+        + "<li><b>Italy</b>(5th), <b>France</b> (6th) and <b>Spain</b> (7th) are ranked very high in terms of deaths. </li>"
+        + "<li><b>India</b> ranks lower(8th) in terms of deaths compared to the high number of positive cases(3rd). </li>"
+        + "</ul>"
+        + "<p>To Explore the weekly/monthly trends in these countries,select the <b>EXPLORE THE TREND</b> tab on the top. </p>")
     // set the dimensions and margins of the graph
-    var margin_daily = { top: 40, right: 20, bottom: 70, left: 60 },
-        width_daily = 600 - margin_daily.left - margin_daily.right,
-        height_daily = 400 - margin_daily.top - margin_daily.bottom;
-    var margin_weekly = { top: 40, right: 20, bottom: 70, left: 60 },
-        width_weekly = 600 - margin_weekly.left - margin_weekly.right,
-        height_weekly = 400 - margin_weekly.top - margin_weekly.bottom;
+    var margin = { top: 20, right: 30, bottom: 45, left: 100 },
+        width = 600 - margin.left - margin.right,
+        height = 450 - margin.top - margin.bottom;
 
-
-
-
-    var svg_weekly = d3.select("#my_dataviz")
-        .append("svg")
-        .attr("width", width_weekly + margin_weekly.left + margin_weekly.right)
-        .attr("height", height_weekly + margin_weekly.top + margin_weekly.bottom)
-        .append("g")
-        .attr("transform",
-            "translate(" + margin_weekly.left + "," + margin_weekly.top + ")");
     // append the svg object to the body of the page
-    var svg_daily = d3.select("#my_dataviz")
+    var svg = d3.select("#my_dataviz")
         .append("svg")
-        .attr("width", width_daily + margin_daily.left + margin_daily.right)
-        .attr("height", height_daily + margin_daily.top + margin_daily.bottom)
+        .attr("id", "s")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform",
-            "translate(" + margin_daily.left + "," + margin_daily.top + ")");
+            "translate(" + margin.left + "," + margin.top + ")");
 
-    // Initialize the X axis
-    var x = d3.scaleBand()
-        .range([0, width_daily])
-        .padding(0.3);
-    var xAxis = svg_daily.append("g")
-        .attr("transform", "translate(0," + height_daily + ")")
+    // set the dimensions and margins of the graph
+    var margin1 = { top: 20, right: 10, bottom: 45, left: 100 },
+        width1 = 600 - margin1.left - margin1.right,
+        height1 = 450 - margin1.top - margin1.bottom;
 
-    // Initialize the X axis
-    var x1 = d3.scaleBand()
-        .range([0, width_weekly])
-        .padding(0.3);
-    var xAxis1 = svg_weekly.append("g")
-        .attr("transform", "translate(0," + height_weekly + ")")
-
-
-    // Initialize the Y axis
-    var y = d3.scaleLinear()
-        .range([height_daily, 0]);
-    var yAxis = svg_daily.append("g")
-        .attr("class", "myYaxis")
-
-    // Initialize the Y axis
-    var y1 = d3.scaleLinear()
-        .range([height_weekly, 0]);
-    var yAxis1 = svg_weekly.append("g")
-        .attr("class", "myYaxis")
-
-    var tooltip = d3.select("#my_dataviz").append("div")
-        .attr("class", "tooltip")
-        .style("opacity", 0).style("background-color", "white")
-        .style("border", "solid")
-        .style("border-width", "2px")
-        .style("border-radius", "5px")
-        .style("padding", "5px").style("position", "absolute");
-
-    var allGroup = [];
-    allGroup = ["World", "India", "Brazil", "United States", "Russia", "South Africa", "Peru", "Mexico", "Chile", "United Kingdom", "Iran", "France", "Italy", "Spain"];
-    d3.select("#selectButton")
-        .selectAll('myOptions')
-        .data(allGroup)
-        .enter()
-        .append('option')
-        .text(function (d) { return d; }) // text showed in the menu
-        .attr("value", function (d) { return d; })
+    // append the svg object to the body of the page
+    var svg1 = d3.select("#my_dataviz")
+        .append("svg")
+        .attr("id", "s1")
+        .attr("width", width1 + margin1.left + margin1.right)
+        .attr("height", height1 + margin1.top + margin1.bottom)
+        .append("g")
+        .attr("transform",
+            "translate(" + margin1.left + "," + margin1.top + ")");
 
 
+    function updateAnnotation() {
 
-
-
-    // A function that create / update the plot for a given variable:
-    function updateMonthly(selectedVar, selectedGroup) {
-
-        // Parse the Data
-        d3.csv("data/MonthlyCovidCasesTop10.csv", function (data) {
-            var sumstat = null;
-            var sumstat = d3.nest() // nest function allows to group the calculation per level of a factor
-                .key(function (d) { return d.Country; })
-                .entries(data);
-            console.log(sumstat);
-            // What is the list of groups?
-            var allKeys = sumstat.map(function (d) { return d.key })
-            if (!selectedGroup) {
-                selectedGroup = allKeys[0];
-            }
-            // Create new data with the selection?
-            var dataFilter = data.filter(function (d) { return d.Country == selectedGroup })
-            // X axis
-            x.domain(dataFilter.map(function (d) { return d.REPORT_DATE; }))
-            xAxis.transition().duration(1000).call(d3.axisBottom(x)).selectAll("text")
-                .attr("transform", "translate(-15,10)rotate(-45)")
-                .style("text-anchor", "end");
-
-
-            // Add Y axis
-            y.domain([0, d3.max(dataFilter, function (d) { return +d[selectedVar] })]);
-            yAxis.transition().duration(1000).call(d3.axisLeft(y));
-
-
-
-
-
-            // variable update: map data to existing bars
-            var update = svg_daily.selectAll("rect")
-                .data(dataFilter)
-                .on("mouseover", function (d) {
-                    if (!deathsflag) {
-                        var html = "<span><b> Month End Date : </b>" + d.REPORT_DATE + "</span><br/>" +
-                            "<b> Total Cases: <b/>" + d[selectedVar];
-                    }
-                    else {
-                        var html = "<span><b> Month End Date : </b>" + d.REPORT_DATE + "</span><br/>" +
-                            "<b> Total Deaths: <b/>" + d[selectedVar];
-                    }
-
-
-                    tooltip.html(html)
-                        .style("left", (d3.event.pageX + 25) + "px")
-                        .style("top", (d3.event.pageY - 28) + "px")
-                        .transition()
-                        .duration(200) // ms
-                        .style("opacity", .9) // started as 0!
-
-                })
-
-                // fade out tooltip on mouse out
-                .on("mouseout", function (d) {
-                    tooltip.transition()
-                        .duration(500)
-                        .style("opacity", 0);
-                })
-
-            // update bars
-            update
-                .enter()
-                .append("rect")
-                .merge(update)
-                .transition()
-                .duration(1000)
-                .attr("x", function (d) { return x(d.REPORT_DATE); })
-                .attr("y", function (d) { return y(d[selectedVar]); })
-                .attr("width", x.bandwidth())
-                .attr("height", function (d) { return height_daily - y(d[selectedVar]); })
-                .attr("fill", !deathsflag ? "#69b3a2" : "#FF0000")
-            d3.select("#dailytext").remove();
-
-            svg_daily.append("text")
-                .attr("id", "dailytext")
-                .attr("x", (width_daily / 2))
-                .attr("y", 0 - (margin_daily.top / 2))
-                .attr("text-anchor", "middle")
-                .style("font-size", "16px")
-                .style("text-decoration", "underline")
-                .text((!deathsflag ? "Total Positive Cases Aggregated Monthly" : "Total Deaths Aggregated Monthly") + " for " + selectedGroup);
-
-        })
-
+        d3.select("#s1")
+            .append("line")
+            .attr("x1", 250)
+            .attr("y1", 285)
+            .attr("x2", 250)
+            .attr("y2", 180)
+            .attr("stroke-width", 2)
+            .attr("stroke", "orange");
+        d3.select("#s1")
+            .append("line")
+            .attr("x1", 250)
+            .attr("y1", 180)
+            .attr("x2", 220)
+            .attr("y2", 180)
+            .attr("stroke-width", 2)
+            .attr("stroke", "orange");
+        d3.select("#s1")
+            .append("line")
+            .attr("x1", 250)
+            .attr("y1", 285)
+            .attr("x2", 220)
+            .attr("y2", 285)
+            .attr("stroke-width", 2)
+            .attr("stroke", "orange");
+        d3.select("#s1")
+            .append("line")
+            .attr("x1", 250)
+            .attr("y1", 225)
+            .attr("x2", 300)
+            .attr("y2", 225)
+            .attr("stroke-width", 2)
+            .attr("stroke", "orange");
+        d3.select("#s1")
+            .append("text")
+            .attr("transform",
+                "translate(" + 370 + "," + 220 + ")")
+            .style("text-anchor", "middle")
+            .style("fill", "orange")
+            .text(("Make the top 10 only in total deaths"));
     }
-    updateMonthly('TotalPositiveCases', "World");
-    updateMonthly('TotalPositiveCases', "World");
-
-    // A function that create / update the plot for a given variable:
-    function updateWeekly(selectedVar, selectedGroup) {
-
-        // Parse the Data
-        //  d3.csv("data/US_Daily_New_Case.csv", function(data) {
-        d3.csv("data/WeeklyCovidCasesTop10.csv", function (data) {
-            var sumstat1 = null;
-            var sumstat1 = d3.nest() // nest function allows to group the calculation per level of a factor
-                .key(function (d) { return d.Country; })
-                .entries(data);
-            console.log(sumstat1);
-            // What is the list of groups?
-            var allKeys = sumstat1.map(function (d) { return d.key })
-            console.log(allKeys);
-            if (!selectedGroup) {
-                selectedGroup = allKeys[0];
-            }
-            // Create new data with the selection?
-            var dataFilter = data.filter(function (d) { return d.Country == selectedGroup })
-            console.log(dataFilter);
-            // X axis
-            x1.domain(dataFilter.map(function (d) { return d.REPORT_DATE; }))
-            xAxis1.transition().duration(1000).call(d3.axisBottom(x1)).selectAll("text")
-                .attr("transform", "translate(-15,10)rotate(-45)")
-                .style("text-anchor", "end");
-
-
-            // Add Y axis
-            y1.domain([0, d3.max(dataFilter, function (d) { return +d[selectedVar] })]);
-            yAxis1.transition().duration(1000).call(d3.axisLeft(y1));
 
 
 
 
+    // Parse the Data
+    d3.csv("data/Slide1New.csv", function (data) {
+        // create a tooltip
 
-            // variable u: map data to existing bars
-            var updateweekly = svg_weekly.selectAll("rect")
-                .data(dataFilter)
-                .on("mouseover", function (d) {
-                    if (!deathsflag) {
-                        var html = "<span><b> Week End Date : </b>" + d.REPORT_DATE + "</span><br/>" +
-                            "<b> Total Cases: <b/>" + d[selectedVar];
-                    }
-                    else {
-                        var html = "<span><b> Week End Date : </b>" + d.REPORT_DATE + "</span><br/>" +
-                            "<b> Total Deaths: <b/>" + d[selectedVar];
-                    }
+        var tooltip = d3.select("#my_dataviz")
+            .append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0)
+            .style("background-color", "white")
+            .style("border", "solid")
+            .style("border-width", "2px")
+            .style("border-radius", "5px")
+            .style("padding", "5px")
+            .style("position", "absolute")
+        // tooltip mouseover event handler
+        var tipMouseover = function (d) {
+            var html = "<b>" + d.Country + "</b><br>" + "<b> Total Deaths: </b> " +
+                d.TotalDeaths + "<br>" + "<b> Deaths Per Million: </b> " + d.DeathsPerMillion;
 
-                    tooltip.html(html)
-                        .style("left", (d3.event.pageX + 25) + "px")
-                        .style("top", (d3.event.pageY - 28) + "px")
-                        .transition()
-                        .duration(200) // ms
-                        .style("opacity", .9) // started as 0!
-
-                })
-
-                // fade out tooltip on mouse out
-                .on("mouseout", function (d) {
-                    tooltip.transition()
-                        .duration(500)
-                        .style("opacity", 0);
-                })
-
-            // update bars
-            updateweekly
-                .enter()
-                .append("rect")
-                .merge(updateweekly)
+            tooltip.html(html)
+                .style("left", (d3.event.pageX + 15) + "px")
+                .style("top", (d3.event.pageY - 28) + "px")
                 .transition()
-                .duration(1000)
-                .attr("x", function (d) { return x1(d.REPORT_DATE); })
-                .attr("y", function (d) { return y1(d[selectedVar]); })
-                .attr("width", x1.bandwidth())
-                .attr("height", function (d) { return height_weekly - y1(d[selectedVar]); })
-                .attr("fill", !deathsflag ? "#69b3a2" : "#FF0000")
+                .duration(200) // ms
+                .style("opacity", 1) // started as 0!
 
-            d3.select("#weeklytext").remove();
-            svg_weekly.append("text")
-                .attr("id", "weeklytext")
-                .attr("x", (width_weekly / 2))
-                .attr("y", 0 - (margin_weekly.top / 2))
-                .attr("text-anchor", "middle")
-                .style("font-size", "16px")
-                .style("text-decoration", "underline")
-                .text((!deathsflag ? "Total Positive Cases Aggregated Weekly" : "Total Deaths Aggregated Weekly") + " for " + selectedGroup);
+        };
+        // tooltip mouseout event handler
+        var tipMouseout = function (d) {
+            tooltip.transition()
+                .duration(300) // ms
+                .style("opacity", 0); // don't care about position!
+        };
 
+        // Add X axis
+        var x1 = d3.scaleLinear()
+            .domain([0, 141000])
+            .range([0, width]);
+        svg1.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x1))
+            .selectAll("text")
+            .attr("transform", "translate(-10,0)rotate(-45)")
+            .style("text-anchor", "end");
+        var datatop10 = data.sort(function (a, b) { return +b.TotalDeaths - +a.TotalDeaths }).filter(function (d, i) { return i < 10 });
+      
+        // Y axis
+        var y1 = d3.scaleBand()
+            .range([0, height])
+            .domain(datatop10.map(function (d) { return d.Country; }))
+            .padding(.1);
+        svg1.append("g")
+            .call(d3.axisLeft(y1))
 
-        })
+        //Bars
+        svg1.selectAll("myRect")
+            .data(datatop10)
+            .enter()
+            .append("rect")
+            .attr("x", x1(0))
+            .attr("y", function (d) { return y1(d.Country); })
+            .attr("width", "0")
+            .attr("height", y1.bandwidth())
+            .attr("fill", "#FF0000")
 
-    }
-    updateWeekly('TotalPositiveCases', "World");
-    updateWeekly('TotalPositiveCases', "World");
-    // When the button is changed, run the updateChart function
-    d3.select("#selectButton").on("change", function (d) {
-        // recover the option that has been chosen
-        var selectedOption = d3.select(this).property("value")
-        // run the updateChart function with this selected option
-        if (!deathsflag) {
-            updateWeekly('TotalPositiveCases', selectedOption)
-            updateMonthly('TotalPositiveCases', selectedOption)
-        }
-        else {
-            updateWeekly('TotalDeaths', selectedOption)
-            updateMonthly('TotalDeaths', selectedOption)
-        }
+            .on("mouseover", tipMouseover)
+            .on("mouseout", tipMouseout);
+
+        svg1.selectAll("rect")
+            .transition()
+            .duration(2000)
+            .attr("width", function (d) { return x1(d.TotalDeaths); })
+
+        d3.select("#deathtext").remove();
+        svg1.append("text")
+            .attr("id", "deathtext")
+            .attr("x", (width1 / 2))
+            .attr("y", 0 - (margin1.top / 2) + 5)
+            .attr("text-anchor", "middle")
+            .style("font-size", "16px")
+            .style("text-decoration", "underline")
+            .text(("Top 10 Countries with Most Deaths"));
     })
+    // Parse the Data
+    d3.csv("data/Slide1New.csv", function (data) {
+        // create a tooltip
 
-    function selectPositiveCases() {
-        deathsflag = false;
-        var selectedOpt = document.querySelector('#selectButton').value;
-        updateWeekly('TotalPositiveCases', selectedOpt);
-        updateMonthly('TotalPositiveCases', selectedOpt)
-        DisableButtons();
-    }
-    function selectDeaths() {
-        deathsflag = true;
-        var selectedOpt = document.querySelector('#selectButton').value;
-        updateWeekly('TotalDeaths', selectedOpt);
-        updateMonthly('TotalDeaths', selectedOpt)
-        DisableButtons();
-    }
-    function DisableButtons() {
-        var button1 = document.getElementById('button1');
-        var button2 = document.getElementById('button2');
-        if (!deathsflag) {
-            button1.disabled = true;
-            button2.disabled = false;
-        }
-        else {
-            button2.disabled = true;
-            button1.disabled = false;
-        }
-    }
+        var tooltip = d3.select("#my_dataviz")
+            .append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0)
+            .style("background-color", "white")
+            .style("border", "solid")
+            .style("border-width", "2px")
+            .style("border-radius", "5px")
+            .style("padding", "5px")
+            .style("position", "absolute")
+        // tooltip mouseover event handler
+        var tipMouseover = function (d) {
+            var html = "<b>" + d.Country + "</b><br>" + "<b> Total Positive Cases: </b>" + d.TotalPositiveCases + "<br>"
+                + "<b> Total Positive Cases Per Million: </b>" + d.PositiveCasesPerMillion;
 
+            tooltip.html(html)
+                .style("left", (d3.event.pageX + 15) + "px")
+                .style("top", (d3.event.pageY - 28) + "px")
+                .transition()
+                .duration(200) // ms
+                .style("opacity", 1) // started as 0!
 
+        };
+        // tooltip mouseout event handler
+        var tipMouseout = function (d) {
+            tooltip.transition()
+                .duration(300) // ms
+                .style("opacity", 0); // don't care about position!
+        };
 
+        // Add X axis
+        var x = d3.scaleLinear()
+            .domain([0, 4000000])
+            .range([0, width]);
+        svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x))
+            .selectAll("text")
+            .attr("transform", "translate(-10,0)rotate(-45)")
+            .style("text-anchor", "end");
+        var datatop10 = data.sort(function (a, b) { return +b.TotalPositiveCases - +a.TotalPositiveCases }).filter(function (d, i) { return i < 10 });
+      
+        // Y axis
+        var y = d3.scaleBand()
+            .range([0, height])
+            .domain(datatop10.map(function (d) { return d.Country; }))
+            .padding(.1);
+        svg.append("g")
+            .call(d3.axisLeft(y))
 
+        //Bars
+        svg.selectAll("myRect")
+            .data(datatop10)
+            .enter()
+            .append("rect")
+            .attr("x", x(0))
+            .attr("y", function (d) { return y(d.Country); })
+            .attr("width", "0")
+            .attr("height", y.bandwidth())
+            .attr("fill", "#69b3a2")
+
+            .on("mouseover", tipMouseover)
+            .on("mouseout", tipMouseout);
+
+        svg.selectAll("rect")
+            .transition()
+            .duration(2000)
+            .attr("width", function (d) { return x(d.TotalPositiveCases); })
+
+        d3.select("#postext").remove();
+        svg.append("text")
+            .attr("id", "postext")
+            .attr("x", (width / 2))
+            .attr("y", 0 - (margin.top / 2) + 5)
+            .attr("text-anchor", "middle")
+            .style("font-size", "16px")
+            .style("text-decoration", "underline")
+            .text(("Top 10 Countries with Most Positive Cases"));
+
+    })
+    setTimeout(updateAnnotation, 2500);
 </script>
-</body>
-
-</html>
